@@ -6,8 +6,9 @@ const config = require("../db_config/keys");
 
 const addProductReview = async (req, res) => {
 
+	console.log("inside addProductReview ==========> ", req.body);
 	const productReview = new ProductReview();
-	productReview.user_name = req.body.user_name;
+	productReview.user_id = req.body.user_id;
 	productReview.barcode = req.body.barcode;
 	productReview.review = req.body.review;
 	productReview.save()
@@ -34,14 +35,13 @@ const addProductReview = async (req, res) => {
 
 /*==checked this api with rest
 
-POST http://localhost:5021/product_review HTTP/1.1
-authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQxNTU5ZWNjOTE5MGNmYzBkMzMxZCIsInJvbGUiOiJjbGllbnQiLCJpYXQiOjE2MDgzMjUzMTN9.svqHZfuva6EQM-_03NvB9aAznKMAa0oIAoawuwFuAuA
+POST http://localhost:5021/products/review HTTP/1.1
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQ5OGIzZmIxZWE0NmQ4ZGZkMjYzNCIsInJvbGUiOiJjbGllbnQiLCJpYXQiOjE2MDgzNTg1MDl9.8wMVWdsFDXwepqmGJztyuw2i04CWDkLi-ETqKG0J40c
 content-type: application/json
 
 {
-	"user_name" : "mama",
-	"barcode" : 123123123,
-	"review" : "delicious"
+	"barcode" : 123123,
+	"review" : "fantastic"
 } 
 
 */

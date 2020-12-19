@@ -8,7 +8,7 @@ app.use(cors());
 const Router = require("./routes/index");
 
 //DB Config
-const db = require("./db_config/keys").MongoURI;
+const db = require("../db_config/keys").MongoURI;
 //connect mongo
 mongoose
 	.connect(db, {

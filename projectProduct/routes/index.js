@@ -5,9 +5,9 @@ const router = express.Router();
 const { addProduct, getProduct, getProductList } = require('../controllers/ProductController')
 const { addProductReview } = require('../controllers/ProductReviewController')
 
-router.post("/product", adminVerify(), addProduct);
-router.get("/product", getProduct);
-router.get("/products", getProductList);
+router.post("/", adminVerify(), addProduct);
+router.get("/search", getProduct);
+router.get("/", getProductList);
 
-router.post("/product_review", clientVerify(), addProductReview);
+router.post("/review", clientVerify(), addProductReview);
 module.exports = router;

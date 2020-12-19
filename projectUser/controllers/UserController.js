@@ -39,16 +39,16 @@ module.exports = { createUser };
 
 
 /*==checked this api with rest
-POST http://localhost:5011/user HTTP/1.1
+POST http://localhost:5011/users/register HTTP/1.1
 content-type: application/json
 
 {
-	"name" : "mama",
-	"email" : "clientmama@gmail.com",
+	"name" : "dada",
+	"email" : "admindada@gmail.com",
 	"password" : "qwe123",
 	"gender" : "M",
-	"phone_number" : 8080808080,
-	"role" : "client"
+	"phone_number" : 7070707070,
+	"role" : "admin"
 }
 
 */

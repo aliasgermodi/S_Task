@@ -8,7 +8,7 @@ app.use(cors());
 const Router = require("./routes/index");
 
 //DB Config
-const db = require("./db_config/keys").MongoURI;
+const db = require("../db_config/keys").MongoURI;
 //connect mongo
 mongoose
 	.connect(db, {
@@ -23,7 +23,7 @@ mongoose
 app.use(express.json({ limit: "50mb", extended: true }));
 
 //Routes;
-app.use("/", Router);
+app.use("/products", Router);
 const PORT = process.env.PORT || 5021;
 
 app.listen(PORT, console.log(`server starts on port ${PORT} `));

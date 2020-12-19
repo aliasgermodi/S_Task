@@ -34,15 +34,15 @@ const addProduct = async (req, res) => {
 
 /*==checked this api with rest
 
-POST http://localhost:5021/product HTTP/1.1
-authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQxNGZjNDRlNTRhMTdhNDBiYjRkMCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYwODMyNDUyMn0.hzFEkaz9KB8zdupEA2tkFDjkI9u6lRdBC551fii5jus
+POST http://localhost:5021/products HTTP/1.1
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQ5OTE0ZmIxZWE0NmQ4ZGZkMjYzNSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYwODM1ODc1M30.Ldle2k42w33LrqkmkmkM_4uPH9kejm0Isv1k09EGNiU
 content-type: application/json
 
 {
-	"name" : "royal samosa",
-	"barcode" : 1231231223,
+	"name" : "royal wadapav",
+	"barcode" : 142142,
 	"brand" : "royal",
-	"description" : "Have a delicious samosa with Royal experience",
+	"description" : "Have a delicious wadapav with Royal experience",
 	"quantity" : 100,
 	"price" : 200,
 	"available" : true
@@ -76,7 +76,7 @@ const getProduct = async (req, res) => {
 };
 
 /* ==checked this api with rest
-// GET http://localhost:5021/product?barcode=123456 HTTP/1.1
+// GET http://localhost:5021/products/search/?barcode=123123 HTTP/1.1
 
 */
 // ***********************************getProductList***************
