@@ -19,5 +19,8 @@ For installation and execution
 In Database there are 2 collections are created
 collection 1 user: this collection consists the user details and defines the role of the user, this privilage is given to the admin user.
 collection 2 product: this collection consists the product details where admin user can add the product.
-collection 2 - product_review: this collection is associated with the product where the client user can give review to the product.
+collection 3 - product_review: this collection is associated with the product where the client user can give review to the product.
+
+API Documentation using Postman:
+https://www.getpostman.com/collections/7f51cef2a0796c85db02
 
