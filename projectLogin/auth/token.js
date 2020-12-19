@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const config = require("../db_config/keys");
+const config = require("../../db_config/keys");
 
 const signToken = (data) => {
 	console.log("sign in data ==> ", data)

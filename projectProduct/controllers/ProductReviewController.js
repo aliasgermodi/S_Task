@@ -1,6 +1,6 @@
 const ProductReview = require("../models/ProductReview");
 const Product = require("../models/Product");
-const config = require("../db_config/keys");
+const config = require("../../db_config/keys");
 
 // ********************************addProductReview*********************
 

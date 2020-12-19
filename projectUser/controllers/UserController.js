@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const config = require("../db_config/keys");
+const config = require("../../db_config/keys");
 const saltRounds = config.salt;
 const bcrypt = require("bcrypt");
 
