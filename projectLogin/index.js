@@ -1,10 +1,6 @@
 const express = require("express");
-const swaggerJSDoc = require('swagger-jsdoc')
-const swaggerUI = require('swagger-ui-express')
 const mongoose = require("mongoose");
 var cors = require("cors");
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../swagger.json');
 
 const app = express();
 
