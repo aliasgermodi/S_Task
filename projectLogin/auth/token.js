@@ -7,6 +7,7 @@ const signToken = (data) => {
 		{
 			id: data.user_id,
 			role: data.role,
+			name: data.name
 		},
 		config.secret
 	);

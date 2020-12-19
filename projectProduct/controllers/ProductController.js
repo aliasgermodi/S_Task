@@ -39,8 +39,8 @@ authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQ5OTE0Z
 content-type: application/json
 
 {
-	"name" : "royal wadapav",
-	"barcode" : 142142,
+	"name" : "roll",
+	"barcode" : 142148,
 	"brand" : "royal",
 	"description" : "Have a delicious wadapav with Royal experience",
 	"quantity" : 100,
@@ -51,7 +51,7 @@ content-type: application/json
 */
 // ***********************************getProduct***************
 
-const getProduct = async (req, res) => {
+const getProductbyBarcode = async (req, res) => {
 	console.log("inside getProduct with barcode   ", req.query);
 
 	Product.findOne({ barcode: req.query.barcode })
@@ -76,7 +76,36 @@ const getProduct = async (req, res) => {
 };
 
 /* ==checked this api with rest
-// GET http://localhost:5021/products/search/?barcode=123123 HTTP/1.1
+// GET http://localhost:5021/products/barcode/?barcode=123123 HTTP/1.1
+
+*/
+
+const getProductByName = async (req, res) => {
+	console.log("inside getProduct with name   =>", req.params.id);
+
+	Product.find({"name": { $regex: '.*' + req.params.id + '.*', "$options": "i"}})
+		.populate("product_reviews")
+		.exec(function (err, product_details) {
+			if (err) {
+				console.log(err);
+				res.redirect("error");
+			} else {
+				if (product_details === null) {
+					res.status(404).json({
+						message: "Product is Not Available in Database",
+					});
+				} else {
+					res.status(200).json({
+						message: "Succesfully Get Product Details",
+						product_details: product_details,
+					});
+				}
+			}
+		});
+};
+
+/* ==checked this api with rest
+// GET http://localhost:5021/products/search/ti HTTP/1.1
 
 */
 // ***********************************getProductList***************
@@ -95,9 +124,21 @@ const getProductList = (req, res) => {
 					message: "Products are Not Available in Database",
 				});
 			} else {
+				// console.log(" product count ==> ", products_list.length);
+				let productList ={}
+				productList.product_count = products_list.length;
+				productList.product_list = products_list;
+				let products = [];
+				let totalCount= 0;
+				products = products_list;
+				products.map((product) => {
+					totalCount += product.quantity;
+				})
+				// console.log(" product totalCount ==> ", totalCount);
+				productList.totalCount = totalCount;
 				res.status(200).json({
 					message: "Succesfully Get Product list",
-					products_list: products_list,
+					products: productList,
 				});
 			}
 		}
@@ -108,4 +149,4 @@ const getProductList = (req, res) => {
 	
 */
 };
-module.exports = { addProduct, getProduct, getProductList };
+module.exports = { addProduct, getProductByName, getProductbyBarcode, getProductList };

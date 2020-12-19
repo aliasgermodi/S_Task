@@ -15,7 +15,7 @@ const login = (req, res) => {
 			console.log('user details password=> ', bcrypt.compareSync(req.body.password, user.password))
 
 			if (user && bcrypt.compareSync(req.body.password, user.password)) {
-				const data = { user_id: user._id, role: user.role };
+				const data = { user_id: user._id, role: user.role, name: user.name};
 				const token = signToken(data);
 				res.status(200).json({
 					message: "Login Successful!",
