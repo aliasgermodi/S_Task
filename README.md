@@ -24,3 +24,8 @@ collection 3 - product_review: this collection is associated with the product wh
 API Documentation using Postman:
 https://www.getpostman.com/collections/7f51cef2a0796c85db02
 
+Swagger implemented:
+http://localhost:5001/api-docs/
+http://localhost:5011/api-docs/
+http://localhost:5021/api-docs/
+
