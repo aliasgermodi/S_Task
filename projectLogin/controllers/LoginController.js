@@ -6,9 +6,9 @@ const { JsonWebTokenError } = require("jsonwebtoken");
 
 // ***********************************Login***************
 
-const login = (req, res) => {
+const login = async(req, res) => {
 	console.log('inside login', req.body);
-	User.findOne({ email: req.body.email })
+	await User.findOne({ email: req.body.email })
 		.then((user) => {
 			console.log('user details => ', user)
 			console.log('user details password=> ', bcrypt.compareSync(req.body.password, user.password))

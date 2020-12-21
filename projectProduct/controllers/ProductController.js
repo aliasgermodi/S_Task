@@ -7,7 +7,7 @@ const config = require("../../db_config/keys");
 const addProduct = async (req, res) => {
 	console.log("inside addProduct", req.body);
 
-	Product.create({
+	await Product.create({
 		name: req.body.name,
 		barcode: req.body.barcode,
 		brand: req.body.brand,
@@ -53,26 +53,32 @@ content-type: application/json
 
 const getProductbyBarcode = async (req, res) => {
 	console.log("inside getProduct with barcode   ", req.query);
-
-	Product.findOne({ barcode: req.query.barcode })
-		.populate("product_reviews")
-		.exec(function (err, product_details) {
-			if (err) {
-				console.log(err);
-				res.redirect("error");
-			} else {
-				if (product_details === null) {
-					res.status(404).json({
-						message: "Product is Not Available in Database",
-					});
+	try {
+		await Product.findOne({ barcode: req.query.barcode })
+			.populate("product_reviews")
+			.exec(function (err, product_details) {
+				if (err) {
+					console.log(err);
+					res.redirect("error");
 				} else {
-					res.status(200).json({
-						message: "Succesfully Get Product Details",
-						product_details: product_details,
-					});
+					if (product_details === null) {
+						res.status(404).json({
+							message: "Product is Not Available in Database",
+						});
+					} else {
+						res.status(200).json({
+							message: "Succesfully Get Product Details",
+							product_details: product_details,
+						});
+					}
 				}
-			}
+			});
+	} catch (error) {
+		res.status(400).json({
+			status: "fail",
+			message: error,
 		});
+	}
 };
 
 /* ==checked this api with rest
@@ -82,26 +88,35 @@ const getProductbyBarcode = async (req, res) => {
 
 const getProductByName = async (req, res) => {
 	console.log("inside getProduct with name   =>", req.params.id);
-
-	Product.find({"name": { $regex: '.*' + req.params.id + '.*', "$options": "i"}})
-		.populate("product_reviews")
-		.exec(function (err, product_details) {
-			if (err) {
-				console.log(err);
-				res.redirect("error");
-			} else {
-				if (product_details === null) {
-					res.status(404).json({
-						message: "Product is Not Available in Database",
-					});
+	try {
+		await Product.find({
+			name: { $regex: ".*" + req.params.id + ".*", $options: "i" },
+		})
+			.populate("product_reviews")
+			.exec(function (err, product_details) {
+				if (err) {
+					console.log(err);
+					res.redirect("error");
 				} else {
-					res.status(200).json({
-						message: "Succesfully Get Product Details",
-						product_details: product_details,
-					});
+					if (product_details === null || product_details.length ==0) {
+						res.status(404).json({
+							message: "Product is Not Available in Database",
+						});
+					} else {
+						res.status(200).json({
+							message: "Succesfully Get Product Details",
+							product_details: product_details,
+						});
+					}
 				}
-			}
+			});
+	} catch (error) {
+		res.status(400).json({
+			status: "fail",
+			message: error,
 		});
+	}
+
 };
 
 /* ==checked this api with rest
@@ -109,44 +124,54 @@ const getProductByName = async (req, res) => {
 
 */
 // ***********************************getProductList***************
-const getProductList = (req, res) => {
-
+const getProductList = async (req, res) => {
 	console.log("inside getProductList");
-	Product.find()
-	.populate("product_reviews")
-	.exec(function (err, products_list) {
-		if (err) {
-			console.log(err);
-			res.redirect("error");
-		} else {
-			if (products_list === null) {
-				res.status(404).json({
-					message: "Products are Not Available in Database",
-				});
-			} else {
-				// console.log(" product count ==> ", products_list.length);
-				let productList ={}
-				productList.product_count = products_list.length;
-				productList.product_list = products_list;
-				let products = [];
-				let totalCount= 0;
-				products = products_list;
-				products.map((product) => {
-					totalCount += product.quantity;
-				})
-				// console.log(" product totalCount ==> ", totalCount);
-				productList.totalCount = totalCount;
-				res.status(200).json({
-					message: "Succesfully Get Product list",
-					products: productList,
-				});
-			}
-		}
-	});
-
-/* ==checked this api with rest
+	try {
+		await Product.find()
+			.populate("product_reviews")
+			.exec(function (err, products_list) {
+				if (err) {
+					console.log(err);
+					res.redirect("error");
+				} else {
+					if (products_list === null) {
+						res.status(404).json({
+							message: "Products are Not Available in Database",
+						});
+					} else {
+						// console.log(" product count ==> ", products_list.length);
+						let productList = {};
+						productList.product_count = products_list.length;
+						productList.product_list = products_list;
+						let products = [];
+						let totalCount = 0;
+						products = products_list;
+						products.map((product) => {
+							totalCount += product.quantity;
+						});
+						// console.log(" product totalCount ==> ", totalCount);
+						productList.totalCount = totalCount;
+						res.status(200).json({
+							message: "Succesfully Get Product list",
+							products: productList,
+						});
+					}
+				}
+			});
+	} catch (err) {
+		res.status(400).json({
+			status: "fail",
+			message: err,
+		});
+	}
+	/* ==checked this api with rest
 	// GET http://localhost:5021/products HTTP/1.1
 	
 */
 };
-module.exports = { addProduct, getProductByName, getProductbyBarcode, getProductList };
+module.exports = {
+	addProduct,
+	getProductByName,
+	getProductbyBarcode,
+	getProductList,
+};

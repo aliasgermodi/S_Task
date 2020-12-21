@@ -1,8 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 var cors = require("cors");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
 
 const app = express();
+app.use(cors());
 
 const Router = require("./routes/index");
 
@@ -20,6 +23,55 @@ mongoose
 
 //middelware
 app.use(express.json({ limit: "50mb", extended: true }));
+
+const swaggerOptions = {
+	swaggerDefinition: {
+		info: {
+			title: "Login API",
+			version: "1.0.0",
+			description: "login Api to Manage login",
+			servers: ["http://localhost:5001"],
+		},
+	},
+	apis: ["index.js"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+/**
+ * @swagger
+ * /login:
+  *   post:
+  *     summary: user login
+  *     consumes:
+  *       - application/json
+  *     parameters:
+  *       - in: body
+  *         name: login
+  *         description: login user.
+  *         schema:
+  *           type: object
+  *           required:
+  *           - email
+  *           - password
+  *         properties:
+  *           email:
+  *             type: string
+  *             description: email of the user
+  *             example: 'john123@gmail.com'
+  *           password:
+  *             type: string
+  *             description: password of the user
+  *             example: 'qwe123'
+  *     responses:
+  *       200:
+  *         description: user login succesfully
+  *       400:
+  *         description: failure in login user
+  *       404:
+  *         description: user not in database
+  */
 
 //Routes;
 app.use("/", Router);

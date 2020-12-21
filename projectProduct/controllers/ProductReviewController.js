@@ -12,9 +12,9 @@ const addProductReview = async (req, res) => {
 	productReview.user_name = req.body.user_name;
 	productReview.barcode = req.body.barcode;
 	productReview.review = req.body.review;
-	productReview.save()
-		.then((result) => {
-			Product.findOne({ barcode: productReview.barcode }, (err, product) => {
+	await productReview.save()
+		.then(async (result) => {
+			await Product.findOne({ barcode: productReview.barcode }, (err, product) => {
 					if (product) {
 						product.product_reviews.push(productReview);
 						product.save();
@@ -29,7 +29,10 @@ const addProductReview = async (req, res) => {
 			});
 		})
 		.catch((error) => {
-			res.status(500).json({ error });
+			res.status(400).json({
+				status: "fail",
+				message: error,
+			});
 		});
 };
 
